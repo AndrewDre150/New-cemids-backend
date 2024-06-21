@@ -37,6 +37,12 @@ DEBUG = True
 #     '192.168.43.59',
 # ]
 ALLOWED_HOSTS = ["*"]
+# settings.py
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-1423.up.railway.app'
+]
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
