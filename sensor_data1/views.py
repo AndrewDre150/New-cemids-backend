@@ -20,7 +20,18 @@ twilio_from_number = os.getenv('TWILIO_FROM_NUMBER')
 
 from django.db.models import Avg, Max, Min, Sum, StdDev, Count, Q
 
-@api_view(['POST'])
+# @api_view(['POST'])
+# def sensor_data1_view(request):
+#     if request.method == 'POST':
+#         serializer = SensorData1Serializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=201)  # Return serialized data if saved successfully
+#         return Response(serializer.errors, status=400)  # Return validation errors if data is not valid
+#     else:
+#         return Response({'detail': 'Method "GET" not allowed.'}, status=405)
+
+@api_view(['GET', 'POST'])
 def sensor_data1_view(request):
     if request.method == 'POST':
         serializer = SensorData1Serializer(data=request.data)
@@ -28,8 +39,11 @@ def sensor_data1_view(request):
             serializer.save()
             return Response(serializer.data, status=201)  # Return serialized data if saved successfully
         return Response(serializer.errors, status=400)  # Return validation errors if data is not valid
-    else:
-        return Response({'detail': 'Method "GET" not allowed.'}, status=405)
+    
+    elif request.method == 'GET':
+        sensor_data = SensorData1.objects.all()  # Fetch all sensor data
+        serializer = SensorData1Serializer(sensor_data, many=True)  # Serialize the data
+        return Response(serializer.data)  # Return serialized data
 
 def latest_sensor_data_view(request):
     try:
