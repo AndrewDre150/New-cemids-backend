@@ -13,6 +13,8 @@ urlpatterns = [
     path('data1/fetch-next-70/', fetch_next_70_values, name='fetch-next-70-values'),
     path('data1/assign-daywise2/', assign_daywise_values2, name='assign-daywise-values2'),
     
+    path('data1/assign-weekly-averages/', get_weekly_average_co2, name='assign-weekly-averages'),
+    
     path('data1/fetch-line-70/', fetch_line_70_values, name='fetch_line_70_values'),
     path('data1/assign-daywise3/', assign_daywise_values3, name='assign_daywise_values3'),
     
