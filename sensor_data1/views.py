@@ -295,6 +295,53 @@ def assign_daywise_values4(request):
 
 
 
+# def get_weekly_average_co2(request):
+#     today = timezone.now()
+#     start_of_week = today - timedelta(days=today.weekday())  # Monday of the current week
+#     end_of_week = start_of_week + timedelta(days=7)  # End of the current week (next Monday)
+
+#     days_of_week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+#     average_co2_levels = []
+
+#     for i in range(7):
+#         day_start = start_of_week + timedelta(days=i)
+#         day_end = day_start + timedelta(days=1)
+#         values_for_day = SensorData1.objects.filter(timestamp__range=(day_start, day_end)).values_list('co2', flat=True)
+        
+#         if values_for_day:
+#             average_co2_level = sum(values_for_day) / len(values_for_day)
+#         else:
+#             average_co2_level = 0  # Default to 0 if no values
+
+#         average_co2_levels.append({"day": days_of_week[i], "average_co2": round(average_co2_level, 2)})
+
+#     return JsonResponse(average_co2_levels, safe=False)
+
+
+
+def get_daily_co2_values(request):
+    today = timezone.now()
+    start_of_week = today - timedelta(days=today.weekday())  # Monday of the current week
+    end_of_week = start_of_week + timedelta(days=7)  # End of the current week (next Monday)
+
+    days_of_week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    daily_values = []
+
+    for i in range(7):
+        day_start = start_of_week + timedelta(days=i)
+        day_end = day_start + timedelta(days=1)
+        values_for_day = list(SensorData1.objects.filter(timestamp__range=(day_start, day_end)).values_list('co2', flat=True))
+        
+        daily_values.append({
+            "day": days_of_week[i],
+            "values": values_for_day
+        })
+
+    return JsonResponse(daily_values, safe=False)
+
+
+
+
 def get_weekly_average_co2(request):
     today = timezone.now()
     start_of_week = today - timedelta(days=today.weekday())  # Monday of the current week
